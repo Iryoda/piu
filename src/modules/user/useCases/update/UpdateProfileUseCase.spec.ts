@@ -1,3 +1,4 @@
+import Profile from '@modules/user/domain/Profile';
 import User from '@modules/user/domain/User';
 import InMemoryProfileRepository from '@modules/user/repositories/in-memory/InMemoryProfileRepository';
 import InMemoryUserRepository from '@modules/user/repositories/in-memory/InMemoryUserRepository';
@@ -8,6 +9,7 @@ let inMemoryUserRepository: InMemoryUserRepository;
 let inMemoryProfileRepository: InMemoryProfileRepository;
 let updateProfileUseCase: UpdateProfileUseCase;
 let user: User;
+let profile: Profile;
 
 describe('UpdateProfileUseCase', () => {
   beforeEach(async () => {
@@ -25,6 +27,13 @@ describe('UpdateProfileUseCase', () => {
       password: 'any_password',
       username: 'any_username',
     });
+
+    profile = await inMemoryProfileRepository.create({
+      about: 'any_about',
+      userId: user.id,
+    });
+
+    Object.assign(user, { ...user, profile: profile });
   });
 
   it('Should update correctly', async () => {
