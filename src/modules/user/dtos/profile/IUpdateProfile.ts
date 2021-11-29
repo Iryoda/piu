@@ -1,3 +1,3 @@
 export default interface IUpdateProfile {
-  about?: string;
+  about: string;
 }
