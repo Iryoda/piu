@@ -16,14 +16,16 @@ enum Role {
 }
 
 model User {
-  id       String    @id @default(uuid())
+  id       String @id @default(uuid())
   name     String
   email    String
   username String
   password String
-  profile  Profile?
-  posts    Post[]
-  comment  Comment[]
+
+  profile Profile?
+  posts   Post[]
+  comment Comment[]
+  like    Like[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -35,33 +37,50 @@ model Profile {
   id     String @id @default(uuid())
   userId String @unique
   about  String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Comment {
-  id        String    @id @default(uuid())
+  id        String  @id @default(uuid())
   content   String
   profileId String?
   postId    String?
   commentId String?
   userId    String
-  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  post      Post?     @relation(fields: [postId], references: [id], onDelete: Cascade)
-  Comment   Comment?  @relation("CommentToComment", fields: [commentId], references: [id], onDelete: Cascade)
-  comments  Comment[] @relation("CommentToComment")
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post     Post?     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  Comment  Comment?  @relation("CommentToComment", fields: [commentId], references: [id], onDelete: Cascade)
+  comments Comment[] @relation("CommentToComment")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Like {
+  id     String @id @default(uuid())
+  userId String
+  postId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Post {
-  id       String    @id @default(uuid())
+  id      String @id @default(uuid())
+  content String
+  userId  String
+
   user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   comments Comment[]
-  userId   String
+  like     Like[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
