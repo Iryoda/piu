@@ -8,6 +8,7 @@ import IProfileRepository from '@modules/user/repositories/in-memory/InMemoryPro
 import ProfileRepository from '@modules/user/repositories/prisma/ProfileRepository';
 
 container.registerSingleton<IUserRepository>('UserRepository', UserRepository);
+
 container.registerSingleton<IProfileRepository>(
   'ProfileRepository',
   ProfileRepository,

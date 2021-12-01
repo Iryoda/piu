@@ -4,9 +4,16 @@ import ICreateUser from '@modules/user/dtos/user/ICreateUser';
 import IUpdateUser from '@modules/user/dtos/user/IUpdateUser';
 import User from '@modules/user/domain/User';
 
+const relation = {
+  profile: true,
+  post: true,
+};
+
 class UserRepository implements IUserRepository {
+  private repository = prisma.user;
+
   public async create(data: ICreateUser): Promise<User> {
-    const user = await prisma.user.create({
+    const user = await this.repository.create({
       data: {
         ...data,
         profile: {
@@ -20,54 +27,56 @@ class UserRepository implements IUserRepository {
   }
 
   public async delete(id: string): Promise<void> {
-    await prisma.user.delete({ where: { id } });
+    await this.repository.delete({ where: { id } });
   }
 
   public async update(id: string, data: IUpdateUser): Promise<User> {
-    const newUser = await prisma.user.update({ where: { id }, data });
+    const newUser = await this.repository.update({ where: { id }, data });
     return newUser;
   }
 
   public async findOneById(id: string): Promise<User | null> {
-    const user = await prisma.user.findUnique({
+    const user = await this.repository.findUnique({
       where: { id },
-      include: { profile: true },
+      include: { ...relation },
     });
     return user;
   }
 
   public async findOneByEmail(email: string): Promise<User | null> {
-    const user = await prisma.user.findFirst({
+    const user = await this.repository.findFirst({
       where: {
         email: {
           contains: email,
         },
       },
-      include: { profile: true },
+      include: { ...relation },
     });
     return user;
   }
 
   public async findManyByName(name: string): Promise<User[] | null> {
-    const user = await prisma.user.findMany({
+    const user = await this.repository.findMany({
       where: {
         name: { contains: name },
       },
-      include: { profile: true },
+      include: { ...relation },
     });
     return user;
   }
 
   public async findOneByUsername(username: string): Promise<User | null> {
-    const user = await prisma.user.findFirst({
+    const user = await this.repository.findFirst({
       where: { username },
-      include: { profile: true },
+      include: { ...relation },
     });
     return user;
   }
 
   public async findAll(): Promise<User[]> {
-    const users = await prisma.user.findMany({ include: { profile: true } });
+    const users = await this.repository.findMany({
+      include: { profile: true },
+    });
     return users;
   }
 }
