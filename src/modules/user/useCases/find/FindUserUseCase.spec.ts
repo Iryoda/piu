@@ -4,7 +4,7 @@ import IUserRepository from '@modules/user/repositories/IUserRepository';
 import HashProvider from '@shared/container/providers/HashProvider/implementations/HashProvider';
 import AppError from '@shared/errors';
 import CreateUserUseCase from '../create/CreateUserUseCase';
-import FindUserUseCase from './FindUserService';
+import FindUserUseCase from './FindUserUseCase';
 
 let findUserUseCase: FindUserUseCase;
 let createUserUseCase: CreateUserUseCase;
