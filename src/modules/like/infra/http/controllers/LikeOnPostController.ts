@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import ICreateLikePostDTO from '@modules/like/dtos/ICreateLikePostDTO';
-import { container } from 'tsyringe';
 import LikeOnPostUseCase from '@modules/like/useCases/handle/LikeOnPostUseCase';
+import { container } from 'tsyringe';
 
-export default class CreateLikeOnPostController {
+export default class LikeOnPostController {
   public async handle(req: Request, res: Response): Promise<Response> {
     const { userId, postId }: ICreateLikePostDTO = req.body;
 
