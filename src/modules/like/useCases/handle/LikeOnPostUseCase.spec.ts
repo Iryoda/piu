@@ -87,6 +87,6 @@ describe('LikeOnPostUseCase', () => {
 
     await likeOnPostUseCase.handle(data);
 
-    expect(inMemoryLikeRepository.findByPostAndUserId(data)).toBeNull();
+    expect(await inMemoryLikeRepository.findByPostAndUserId(data)).toBeNull();
   });
 });
