@@ -18,11 +18,11 @@ export default class CreatePostUseCase {
   }: ICreatePostDTO): Promise<Post> {
     const findUser = await this.userRepository.findOneById(userId);
 
-    if (!findUser) throw new NotFound('User id');
+    if (!findUser) throw new NotFound('UserId');
 
     const post = await this.postRepository.create({
-      data: { content },
       userId,
+      data: { content },
     });
 
     return post;
