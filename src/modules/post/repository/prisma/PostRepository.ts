@@ -22,8 +22,4 @@ export default class PostRepository implements IPostRepository {
     const post = await this.repository.findFirst({ where: { id } });
     return post || null;
   }
-
-  public async likePost(userId: string, postId: string) {
-    const post = await this.repository.update({ where: { id: postId } });
-  }
 }
