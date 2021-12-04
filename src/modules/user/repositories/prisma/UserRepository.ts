@@ -6,7 +6,8 @@ import User from '@modules/user/domain/User';
 
 const relation = {
   profile: true,
-  post: true,
+  posts: true,
+  like: true,
 };
 
 class UserRepository implements IUserRepository {
@@ -36,7 +37,7 @@ class UserRepository implements IUserRepository {
   }
 
   public async findOneById(id: string): Promise<User | null> {
-    const user = await this.repository.findUnique({
+    const user = await this.repository.findFirst({
       where: { id },
       include: { ...relation },
     });
@@ -75,7 +76,7 @@ class UserRepository implements IUserRepository {
 
   public async findAll(): Promise<User[]> {
     const users = await this.repository.findMany({
-      include: { profile: true },
+      include: { ...relation },
     });
     return users;
   }

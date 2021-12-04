@@ -6,4 +6,5 @@ export default interface IPostRepository {
   delete(id: string): Promise<void>;
 
   findById(id: string): Promise<Post | null>;
+  findByAll(): Promise<Post[]>;
 }

@@ -4,6 +4,6 @@ import LikeOnPostController from '../controllers/LikeOnPostController';
 const likeRoutes = Router();
 const likeOnPostController = new LikeOnPostController();
 
-likeRoutes.get('/', likeOnPostController.handle);
+likeRoutes.post('/', likeOnPostController.handle);
 
 export default likeRoutes;
