@@ -126,7 +126,21 @@ describe('CreateUserService', () => {
     );
   });
 
-  it('Should hash password correctly', async () => {
+  it('Should throw erro if a invalid param has been send', async () => {
+    const user = {
+      name: 'any_name',
+      email: 'any_email',
+      invalidParam: 'invalid_param',
+      password: 'any_password',
+      username: 'any_username',
+    };
+
+    await expect(createUserService.handle(user)).rejects.toBeInstanceOf(
+      AppError,
+    );
+  });
+
+  it('Should hash password been called correctly', async () => {
     const generate = jest.spyOn(hashProvider, 'generateHash');
 
     const user = {
@@ -139,5 +153,24 @@ describe('CreateUserService', () => {
     await createUserService.handle(user);
 
     expect(generate).toHaveBeenCalledWith('any_password');
+  });
+
+  it('Should hash password match generated hash', async () => {
+    const generate = jest.spyOn(hashProvider, 'generateHash');
+
+    const mockedPassword = 'hashed_password';
+
+    generate.mockResolvedValue(mockedPassword);
+
+    const user = {
+      name: 'any_name',
+      email: 'any_email',
+      password: 'any_password',
+      username: 'any_username',
+    };
+
+    const response = await createUserService.handle(user);
+
+    expect(response.password).toEqual(mockedPassword);
   });
 });
