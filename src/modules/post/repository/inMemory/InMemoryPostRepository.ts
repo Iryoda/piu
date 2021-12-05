@@ -6,10 +6,9 @@ import IPostRepository from '../IPostRepository';
 export default class InMemoryPostRepository implements IPostRepository {
   private repository: Post[] = [];
 
-  public async create({ userId, data }: ICreatePostDTO): Promise<Post> {
+  public async create(data: ICreatePostDTO): Promise<Post> {
     const newProfile: Post = {
       id: v4(),
-      userId: userId,
       createdAt: new Date(),
       updatedAt: new Date(),
       ...data,

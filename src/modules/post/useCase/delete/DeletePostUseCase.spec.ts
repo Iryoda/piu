@@ -14,9 +14,7 @@ describe('DeletePostUseCase', () => {
 
     post = await inMemoryPostRepository.create({
       userId: 'any_id',
-      data: {
-        content: 'any_content',
-      },
+      content: 'any_content',
     });
   });
 
