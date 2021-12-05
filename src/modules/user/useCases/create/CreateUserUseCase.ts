@@ -5,6 +5,7 @@ import MissingParam from '@shared/errors/MissingParam';
 import ShouldBeUnique from '@shared/errors/ShouldBeUnique';
 import User from '@modules/user/domain/User';
 import IHashProvider from '@shared/container/providers/HashProvider/models/IHashProvider';
+import InvalidParam from '@shared/errors/InvalidParamError';
 
 @injectable()
 export default class CreateUserUseCase {
@@ -13,8 +14,26 @@ export default class CreateUserUseCase {
     @inject('HashProvider') private hashProvider: IHashProvider,
   ) {}
 
+  public checkIfParamsAreValid(data: ICreateUser): void {
+    const validParams: Array<keyof ICreateUser> = [
+      'username',
+      'email',
+      'name',
+      'password',
+    ];
+
+    validParams.map((field) => {
+      if (!data[field]) throw new MissingParam(field);
+    });
+
+    Object.keys(data).map((param) => {
+      if (!validParams.includes(param as keyof ICreateUser))
+        throw new InvalidParam(param);
+    });
+  }
+
   public async handle(data: ICreateUser): Promise<User> {
-    const { email, name, password, username } = data;
+    this.checkIfParamsAreValid(data);
 
     const findUserByEmail = await this.userRepository.findOneByEmail(
       data.email,
@@ -28,21 +47,13 @@ export default class CreateUserUseCase {
 
     if (findUserByUsername) throw new ShouldBeUnique('Username');
 
-    const mandatoryField = ['username', 'email', 'name', 'password'];
+    const newPassword = await this.hashProvider.generateHash(data.password);
 
-    mandatoryField.map((field) => {
-      //@ts-ignore
-      if (!data[field]) throw new MissingParam(field);
-    });
-
-    const newPassword = await this.hashProvider.generateHash(password);
-
-    const user = this.userRepository.create({
-      username,
-      name,
-      email: email.toLowerCase(),
-      password: newPassword,
-    });
+    const user = this.userRepository.create(
+      Object.assign(data, {
+        password: newPassword,
+      }),
+    );
 
     return user;
   }
