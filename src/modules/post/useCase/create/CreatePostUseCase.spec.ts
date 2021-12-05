@@ -1,8 +1,10 @@
 import InMemoryPostRepository from '@modules/post/repository/inMemory/InMemoryPostRepository';
-import User from '@modules/user/domain/User';
 import InMemoryUserRepository from '@modules/user/repositories/in-memory/InMemoryUserRepository';
-import AppError from '@shared/errors';
 import CreatePostUseCase from './CreatePostUseCase';
+import InvalidParam from '@shared/errors/InvalidParamError';
+import MissingParam from '@shared/errors/MissingParam';
+import NotFound from '@shared/errors/NotFound';
+import User from '@modules/user/domain/User';
 
 let inMemoryPostRepository: InMemoryPostRepository;
 let inMemoryUserRepository: InMemoryUserRepository;
@@ -29,7 +31,7 @@ describe('CreatePostUseCase', () => {
   it('Should create a post correctly', async () => {
     const profile = await createPostUseCase.handle({
       userId: user.id,
-      data: { content: 'any_content' },
+      content: 'any_content',
     });
 
     expect(profile).toHaveProperty('id');
@@ -38,9 +40,31 @@ describe('CreatePostUseCase', () => {
   it('Should throw an error if userId is invalid', async () => {
     await expect(
       createPostUseCase.handle({
-        userId: 'any_id',
-        data: { content: 'any_content' },
+        userId: 'invalid_id',
+        content: 'any_content',
       }),
-    ).rejects.toBeInstanceOf(AppError);
+    ).rejects.toBeInstanceOf(NotFound);
+  });
+
+  it('Should throw an erro if a invalid param is passed', async () => {
+    const data = {
+      userId: 'invalid_id',
+      content: 'any_content',
+      invalidParam: 'invalid_param',
+    };
+
+    await expect(createPostUseCase.handle(data)).rejects.toBeInstanceOf(
+      InvalidParam,
+    );
+  });
+
+  it('Should throw an erro if a missing a param ', async () => {
+    const data = {
+      userId: 'invalid_id',
+    };
+
+    await expect(createPostUseCase.handle(data as any)).rejects.toBeInstanceOf(
+      MissingParam,
+    );
   });
 });
