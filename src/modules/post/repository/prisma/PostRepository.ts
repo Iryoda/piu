@@ -19,7 +19,17 @@ export default class PostRepository implements IPostRepository {
   }
 
   public async findById(id: string): Promise<Post | null> {
-    const post = await this.repository.findFirst({ where: { id } });
+    const post = await this.repository.findFirst({
+      where: { id },
+      include: { like: true, user: true, comments: true },
+    });
     return post || null;
+  }
+
+  public async findByAll(): Promise<Post[]> {
+    const post = await this.repository.findMany({
+      include: { user: true, like: true, comments: true },
+    });
+    return post;
   }
 }

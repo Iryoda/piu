@@ -29,4 +29,8 @@ export default class InMemoryPostRepository implements IPostRepository {
     const post = this.repository.find((post) => post.id === id);
     return post || null;
   }
+
+  public async findByAll(): Promise<Post[]> {
+    return this.repository;
+  }
 }

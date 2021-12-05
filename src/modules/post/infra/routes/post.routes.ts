@@ -1,8 +1,13 @@
 import { Router } from 'express';
 import CreatePostController from '../http/controllers/CreatePostController';
+import FindAllController from '../http/controllers/FindAllController';
 
-const postRouter = Router();
+const postRoutes = Router();
 
 const createPostController = new CreatePostController();
+const findAllController = new FindAllController();
 
-postRouter.post('/', createPostController.handle);
+postRoutes.post('/', createPostController.handle);
+postRoutes.get('/', findAllController.handle);
+
+export default postRoutes;
