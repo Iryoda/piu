@@ -1,8 +1,4 @@
-type PostContent = {
-  content: string;
-};
-
 export default interface ICreatePostDTO {
-  data: PostContent;
+  content: string;
   userId: string;
 }
