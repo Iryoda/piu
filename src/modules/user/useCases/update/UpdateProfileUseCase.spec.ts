@@ -54,4 +54,19 @@ describe('UpdateProfileUseCase', () => {
       updateProfileUseCase.handle({ userId: 'any_id2', data: newInfo }),
     ).rejects.toBeInstanceOf(AppError);
   });
+
+  it('Should throw error if profileId is invalid', async () => {
+    delete user.profile;
+
+    jest.spyOn(inMemoryUserRepository, 'findOneById').mockResolvedValue(user);
+
+    const newInfo = { about: 'any_about' };
+
+    await expect(
+      updateProfileUseCase.handle({
+        userId: user.id,
+        data: newInfo,
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
 });
