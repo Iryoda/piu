@@ -13,6 +13,9 @@ import LikeRepository from '@modules/like/repositories/prisma/LikeRepository';
 import IPostRepository from '@modules/post/repository/IPostRepository';
 import PostRepository from '@modules/post/repository/prisma/PostRepository';
 
+import ICommentRepository from '@modules/comment/repository/ICommentRepository';
+import CommentsRepository from '@modules/comment/repository/prisma/CommentsRepository';
+
 container.registerSingleton<IUserRepository>('UserRepository', UserRepository);
 
 container.registerSingleton<IProfileRepository>(
@@ -23,3 +26,8 @@ container.registerSingleton<IProfileRepository>(
 container.registerSingleton<ILikeRepository>('LikeRepository', LikeRepository);
 
 container.registerSingleton<IPostRepository>('PostRepository', PostRepository);
+
+container.registerSingleton<ICommentRepository>(
+  'CommentRepository',
+  CommentsRepository,
+);
