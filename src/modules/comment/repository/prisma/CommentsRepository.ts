@@ -3,7 +3,7 @@ import Comment from '@modules/comment/domain/Comment';
 import ICreateCommentOnPost from '@modules/comment/dtos/ICreateCommentOnPost';
 import ICommentRepository from '../ICommentRepository';
 
-export default class CommnetsRepository implements ICommentRepository {
+export default class CommentsRepository implements ICommentRepository {
   private repository = prisma.comment;
 
   public async createOnPost(data: ICreateCommentOnPost): Promise<Comment> {
