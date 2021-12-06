@@ -5,12 +5,12 @@ import { container } from 'tsyringe';
 
 export default class CreatePostController {
   public async handle(req: Request, res: Response): Promise<Response> {
-    const { userId, data }: ICreatePostDTO = req.body;
+    const data: ICreatePostDTO = req.body;
 
     const createPostUseCase = container.resolve(CreatePostUseCase);
 
-    const profile = await createPostUseCase.handle({ userId, data });
+    const profile = await createPostUseCase.handle(data);
 
-    return res.status(200).json(profile);
+    return res.status(201).json(profile);
   }
 }

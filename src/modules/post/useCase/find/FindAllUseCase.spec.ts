@@ -13,12 +13,12 @@ describe('FindAllUseCase', () => {
     findAllUseCase = new FindAllUseCase(inMemoryPostRepository);
 
     post = await inMemoryPostRepository.create({
-      data: { content: 'any_content' },
+      content: 'any_content',
       userId: 'any_id',
     });
 
     post2 = await inMemoryPostRepository.create({
-      data: { content: 'any_content' },
+      content: 'any_content2',
       userId: 'any_id',
     });
   });

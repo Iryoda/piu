@@ -29,7 +29,7 @@ describe('LikeOnPostUseCase', () => {
 
     post = await inMemoryPostRepository.create({
       userId: postOwner.id,
-      data: { content: 'any_data' },
+      content: 'any_data',
     });
 
     likeOnPostUseCase = new LikeOnPostUseCase(

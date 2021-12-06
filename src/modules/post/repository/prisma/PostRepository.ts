@@ -6,9 +6,9 @@ import Post from '@modules/post/domain/Post';
 export default class PostRepository implements IPostRepository {
   private repository = prisma.post;
 
-  public async create({ data, userId }: ICreatePostDTO): Promise<Post> {
+  public async create(data: ICreatePostDTO): Promise<Post> {
     const post = await this.repository.create({
-      data: { content: data.content, userId: userId },
+      data: data,
     });
 
     return post;
