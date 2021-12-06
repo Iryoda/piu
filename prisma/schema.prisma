@@ -55,7 +55,7 @@ model Comment {
   user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   post     Post?     @relation(fields: [postId], references: [id], onDelete: Cascade)
   Comment  Comment?  @relation("CommentToComment", fields: [commentId], references: [id], onDelete: Cascade)
-  comments Comment[] @relation("CommentToComment")
+  responses Comment[] @relation("CommentToComment")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
