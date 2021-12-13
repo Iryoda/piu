@@ -9,7 +9,7 @@ export default class UpdateCommentController {
 
     const updateCommentUseCase = container.resolve(UpdateCommentUseCase);
 
-    const comment = updateCommentUseCase.handle({ commentId, ...data });
+    const comment = await updateCommentUseCase.handle({ commentId, ...data });
 
     return res.status(200).json(comment);
   }
