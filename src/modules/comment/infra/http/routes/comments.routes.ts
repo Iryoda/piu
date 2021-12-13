@@ -13,7 +13,8 @@ const updateCommentController = new UpdateCommentController();
 
 commentRoutes.post('/:postid', createCommentOnPostController.handle);
 commentRoutes.post('/on/:commentId', createResponseController.handle);
-commentRoutes.post('/delete/:commentId', deleteCommentController.handle);
+
+commentRoutes.delete('/delete/:commentId', deleteCommentController.handle);
 commentRoutes.patch('/update/:commentId', updateCommentController.handle);
 
 export default commentRoutes;
