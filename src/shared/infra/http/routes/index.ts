@@ -1,4 +1,4 @@
-import commentRoutes from '@modules/comment/infra/http/routes/comments';
+import commentRoutes from '@modules/comment/infra/http/routes/comments.routes';
 import likeRoutes from '@modules/like/infra/http/routes/like.routes';
 import postRoutes from '@modules/post/infra/routes/post.routes';
 import userRoutes from '@modules/user/infra/http/routes/user.routes';
