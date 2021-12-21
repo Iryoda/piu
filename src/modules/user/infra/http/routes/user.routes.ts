@@ -14,10 +14,10 @@ const updateUserController = new UpdateUserController();
 const updateProfileController = new UpdateProfileController();
 
 userRoutes.get('/', findUserController.findAll);
-userRoutes.get('/:id', findUserController.findById);
+userRoutes.get('/:userId', findUserController.findById);
 userRoutes.post('/', createUserController.handle);
-userRoutes.delete('/:id', deleteUserController.handle);
-userRoutes.patch('/:id', updateUserController.handle);
+userRoutes.delete('/:userId', deleteUserController.handle);
+userRoutes.patch('/:userId', updateUserController.handle);
 
 //Profile
 userRoutes.patch('/profile/:userId', updateProfileController.handle);
