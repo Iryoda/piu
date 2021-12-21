@@ -1,5 +1,4 @@
 import { inject, injectable } from 'tsyringe';
-import InvalidParam from '@shared/errors/InvalidParamError';
 import NotFound from '@shared/errors/NotFound';
 import IUpdateUser from '@modules/user/dtos/user/IUpdateUser';
 import IUserRepository from '@modules/user/repositories/IUserRepository';
@@ -17,17 +16,8 @@ export default class UpdateUserUseCase {
     @inject('UserRepository') private userRepository: IUserRepository,
   ) {}
 
-  private checkIfParamsAreValid(data: IUpdateUser): void {
-    const validField: Array<keyof IUpdateUser> = ['name', 'username'];
-
-    Object.keys(data).map((param) => {
-      if (!validField.includes(param as keyof IUpdateUser))
-        throw new InvalidParam(param);
-    });
-  }
-
   public async handle({ id, data }: UpdateUserData): Promise<User> {
-    this.checkIfParamsAreValid(data);
+    await User.update(data);
 
     const findUser = await this.userRepository.findOneById(id);
 
