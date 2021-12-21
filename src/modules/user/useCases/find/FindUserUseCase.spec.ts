@@ -1,35 +1,26 @@
 import User from '@modules/user/domain/User';
 import InMemoryUserRepository from '@modules/user/repositories/in-memory/InMemoryUserRepository';
 import IUserRepository from '@modules/user/repositories/IUserRepository';
-import HashProvider from '@shared/container/providers/HashProvider/implementations/HashProvider';
 import AppError from '@shared/errors';
-import CreateUserUseCase from '../create/CreateUserUseCase';
 import FindUserUseCase from './FindUserUseCase';
 
 let findUserUseCase: FindUserUseCase;
-let createUserUseCase: CreateUserUseCase;
 let inMemoryUserRepository: IUserRepository;
-let hashProvider: HashProvider;
 let user: User;
 
 describe('FindUserUseCase', () => {
   beforeEach(async () => {
     inMemoryUserRepository = new InMemoryUserRepository();
-    hashProvider = new HashProvider();
-    createUserUseCase = new CreateUserUseCase(
-      inMemoryUserRepository,
-      hashProvider,
-    );
     findUserUseCase = new FindUserUseCase(inMemoryUserRepository);
 
-    user = await createUserUseCase.handle({
+    user = await inMemoryUserRepository.create({
       name: 'any_name',
       email: 'any_email',
       password: 'any_password',
       username: 'any_username',
     });
 
-    await createUserUseCase.handle({
+    await inMemoryUserRepository.create({
       name: 'any_name2',
       email: 'any_email2',
       password: 'any_password2',
