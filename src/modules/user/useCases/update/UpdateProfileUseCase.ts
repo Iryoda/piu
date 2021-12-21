@@ -21,6 +21,8 @@ export default class UpdateProfileUseCase {
   public async handle({ userId, data: { about } }: IRequest): Promise<Profile> {
     const findUser = await this.userRepository.findOneById(userId);
 
+    await Profile.create(about);
+
     if (!findUser) throw new InvalidParam('User id');
 
     const profileId = findUser.profile?.id;

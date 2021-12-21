@@ -56,9 +56,9 @@ describe('UpdateProfileUseCase', () => {
   });
 
   it('Should throw error if profileId is invalid', async () => {
-    delete user.profile;
-
-    jest.spyOn(inMemoryUserRepository, 'findOneById').mockResolvedValue(user);
+    jest
+      .spyOn(inMemoryUserRepository, 'findOneById')
+      .mockResolvedValue(Object.assign(user, { profile: undefined }));
 
     const newInfo = { about: 'any_about' };
 
