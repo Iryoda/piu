@@ -9,6 +9,7 @@ export default class FindUserController {
     const findUserService = container.resolve(FindUserService);
 
     const user = await findUserService.findOneById(id);
+
     return res.status(200).json(user);
   }
 
