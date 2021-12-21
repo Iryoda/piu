@@ -11,6 +11,7 @@ describe('CreateUserService', () => {
   beforeEach(() => {
     userRepositoryInMemory = new InMemoryUserRepository();
     hashProvider = new HashProvider();
+
     createUserService = new CreateUserService(
       userRepositoryInMemory,
       hashProvider,
@@ -20,7 +21,7 @@ describe('CreateUserService', () => {
   it('Should create user correctly', async () => {
     const user = {
       name: 'any_name',
-      email: 'any_email',
+      email: 'any_email@mail.com',
       password: 'any_password',
       username: 'any_username',
     };
@@ -33,14 +34,14 @@ describe('CreateUserService', () => {
   it('Should not return 400 if have same email', async () => {
     const user = {
       name: 'any_name',
-      email: 'any_email',
+      email: 'any_email@mail.com',
       password: 'any_password',
       username: 'any_username',
     };
 
     const userError = {
       name: 'any_name2',
-      email: 'any_email',
+      email: 'any_email@mail.com',
       password: 'any_password',
       username: 'any_username2',
     };
@@ -55,14 +56,14 @@ describe('CreateUserService', () => {
   it('Should not return 400 if have same username', async () => {
     const user = {
       name: 'any_name',
-      email: 'any_email',
+      email: 'any_email@mail.com',
       password: 'any_password',
       username: 'any_username',
     };
 
     const userError = {
       name: 'any_name',
-      email: 'any_email2',
+      email: 'other_email@mail.com',
       password: 'any_password',
       username: 'any_username',
     };
@@ -74,78 +75,12 @@ describe('CreateUserService', () => {
     );
   });
 
-  it('Should not create user with null name', async () => {
-    const user = {
-      name: '',
-      email: 'any_email',
-      password: 'any_password',
-      username: 'any_username',
-    };
-
-    await expect(createUserService.handle(user)).rejects.toBeInstanceOf(
-      AppError,
-    );
-  });
-
-  it('Should not create user with null username', async () => {
-    const user = {
-      name: 'any_name',
-      email: 'any_email',
-      password: 'any_password',
-      username: '',
-    };
-
-    await expect(createUserService.handle(user)).rejects.toBeInstanceOf(
-      AppError,
-    );
-  });
-
-  it('Should not create user with null password', async () => {
-    const user = {
-      name: 'any_name',
-      email: 'any_email',
-      password: '',
-      username: 'any_username',
-    };
-
-    await expect(createUserService.handle(user)).rejects.toBeInstanceOf(
-      AppError,
-    );
-  });
-
-  it('Should not create user with null email', async () => {
-    const user = {
-      name: 'any_name',
-      email: '',
-      password: 'any_password',
-      username: 'any_username',
-    };
-
-    await expect(createUserService.handle(user)).rejects.toBeInstanceOf(
-      AppError,
-    );
-  });
-
-  it('Should throw erro if a invalid param has been send', async () => {
-    const user = {
-      name: 'any_name',
-      email: 'any_email',
-      invalidParam: 'invalid_param',
-      password: 'any_password',
-      username: 'any_username',
-    };
-
-    await expect(createUserService.handle(user)).rejects.toBeInstanceOf(
-      AppError,
-    );
-  });
-
   it('Should hash password been called correctly', async () => {
     const generate = jest.spyOn(hashProvider, 'generateHash');
 
     const user = {
       name: 'any_name',
-      email: 'any_email',
+      email: 'any_email@mail.com',
       password: 'any_password',
       username: 'any_username',
     };
@@ -164,7 +99,7 @@ describe('CreateUserService', () => {
 
     const user = {
       name: 'any_name',
-      email: 'any_email',
+      email: 'any_email@mail.com',
       password: 'any_password',
       username: 'any_username',
     };
