@@ -8,8 +8,8 @@ export default class DeleteUserController {
 
     const deleteUserService = container.resolve(DeleteUserUseCase);
 
-    const user = await deleteUserService.deleteById(id);
+    await deleteUserService.deleteById(id);
 
-    return res.status(200).json(user);
+    return res.status(200).json('');
   }
 }
