@@ -11,6 +11,6 @@ export default class UpdateProfileController {
 
     const user = await updateProfileUseCase.handle({ userId, data: { about } });
 
-    res.status(200).json(user);
+    return res.status(200).json(user);
   }
 }
