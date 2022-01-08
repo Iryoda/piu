@@ -12,8 +12,6 @@ export default class UpdateUserController {
       if (!validField.includes(param as keyof IUpdateUser))
         throw new InvalidParam(param);
     });
-
-    console.log(data);
   }
 
   public async handle(req: Request, res: Response): Promise<Response> {
